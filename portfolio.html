@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Aurora Montelongo Photography</title>
+<meta name="description" content="Selected works by Aurora Montelongo. Fine art and editorial photography available as limited edition prints.">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Franklin:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --near-black: #0a0a0a;
+  --dark-gray: #141414;
+  --mid-gray: #2a2a2a;
+  --text-muted: #6b6b6b;
+  --text-secondary: #999999;
+  --text-primary: #d4d4d4;
+  --white: #f0f0f0;
+  --bright-white: #ffffff;
+  --accent: #c8b88a;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Libre Franklin', 'Helvetica Neue', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent); color: var(--black); }
+
+/* ─── NAVIGATION ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.nav-logo img {
+  height: 36px; width: 36px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+.nav-logo img:hover { opacity: 1; }
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+.nav-links a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-links a.active { color: var(--white); }
+.nav-links a.active::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 1px;
+  background: var(--text-secondary);
+  transition: all 0.3s;
+}
+
+/* ─── MOBILE MENU ─── */
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.97);
+  align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.mobile-menu.active { display: flex; opacity: 1; }
+.mobile-menu-links { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 2rem; }
+.mobile-menu-links a { font-family: var(--serif); font-weight: 300; font-size: 1.8rem; color: var(--text-primary); text-decoration: none; transition: color 0.3s; }
+.mobile-menu-links a:hover { color: var(--accent); }
+
+/* ─── PORTFOLIO PAGE ─── */
+.portfolio-page {
+  padding: 10rem 0 6rem;
+}
+
+.portfolio-page-header {
+  text-align: center;
+  margin-bottom: 5rem;
+  padding: 0 2rem;
+}
+
+.portfolio-page-header .section-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.portfolio-page-header .section-heading {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: var(--white);
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+/* Two-column editorial gallery */
+.gallery-editorial {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.gallery-editorial .gallery-item:nth-child(even) {
+  margin-top: 4rem;
+}
+
+/* Gallery item */
+.gallery-item {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.gallery-item-frame {
+  position: relative;
+  overflow: hidden;
+  padding: 6px;
+  background: rgba(255,255,255,0.08);
+}
+
+/* Watermark on image */
+.gallery-item-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 1rem; right: 1rem;
+  width: 36px; height: 36px;
+  background: url('Logos/Monogram White Transp.png') center / contain no-repeat;
+  opacity: 0.2;
+  z-index: 3;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-item-frame::after { opacity: 0.1; }
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.8s ease, filter 0.6s ease;
+  filter: brightness(0.88);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.02);
+  filter: brightness(1);
+}
+
+.gallery-item-caption {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.8rem;
+  padding-left: 0.1rem;
+  transition: color 0.3s;
+}
+
+.gallery-item:hover .gallery-item-caption { color: var(--text-secondary); }
+
+/* ─── LIGHTBOX ─── */
+.lightbox {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.96);
+  display: none;
+  align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  cursor: pointer;
+}
+.lightbox.active { display: flex; opacity: 1; }
+
+.lightbox-frame {
+  position: relative;
+  display: flex;
+  align-items: center; justify-content: center;
+  max-width: 90vw; max-height: 90vh;
+}
+
+.lightbox-frame > img {
+  max-width: 90vw; max-height: 90vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-shield {
+  position: absolute; inset: 0; z-index: 1;
+  background: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.lightbox-wm { position: absolute; pointer-events: none; z-index: 2; }
+.lightbox-wm img { display: block; -webkit-user-select: none; user-select: none; }
+
+.lightbox-wm-monogram { bottom: 1.2rem; right: 1.2rem; }
+.lightbox-wm-monogram img { width: 50px; height: 50px; object-fit: contain; opacity: 0.22; }
+
+.lightbox-wm-logo { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.lightbox-wm-logo img { width: clamp(300px, 70vw, 700px); height: auto; object-fit: contain; opacity: 0.12; }
+
+.lightbox-close {
+  position: absolute; top: 2rem; right: 2rem;
+  background: none; border: none;
+  color: var(--text-secondary);
+  font-size: 1.5rem; cursor: pointer;
+  font-family: var(--sans); font-weight: 200;
+  transition: color 0.3s;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+}
+.lightbox-close:hover { color: var(--white); }
+
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--text-secondary);
+  font-size: 2rem; cursor: pointer;
+  padding: 1rem;
+  font-family: var(--sans); font-weight: 200;
+  transition: color 0.3s;
+}
+.lightbox-nav:hover { color: var(--white); }
+.lightbox-prev { left: 1.5rem; }
+.lightbox-next { right: 1.5rem; }
+
+/* ─── LIGHTBOX PRINT PANEL ─── */
+.lightbox-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 2.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.lightbox.active .lightbox-panel {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
+}
+
+.lightbox-panel-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: var(--white);
+  letter-spacing: 0.02em;
+}
+
+.lightbox-panel-sub {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.lightbox-panel-cta {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.7rem 1.8rem;
+  border: 1px solid rgba(200,184,138,0.35);
+  transition: all 0.4s ease;
+  cursor: pointer;
+  background: none;
+}
+
+.lightbox-panel-cta:hover {
+  background: var(--accent);
+  color: var(--black);
+  border-color: var(--accent);
+}
+
+/* ─── INQUIRY MODAL ─── */
+.inquiry-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: rgba(0,0,0,0.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.inquiry-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+.inquiry-box {
+  background: var(--near-black);
+  border: 1px solid var(--mid-gray);
+  padding: 3rem;
+  max-width: 460px;
+  width: 90%;
+  position: relative;
+}
+
+.inquiry-close {
+  position: absolute;
+  top: 1rem; right: 1.2rem;
+  background: none; border: none;
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 200;
+  transition: color 0.3s;
+}
+.inquiry-close:hover { color: var(--white); }
+
+.inquiry-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.inquiry-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 1.6rem;
+  color: var(--white);
+  margin-bottom: 0.3rem;
+}
+
+.inquiry-work-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.inquiry-box input,
+.inquiry-box textarea {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--mid-gray);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.82rem;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.inquiry-box input::placeholder,
+.inquiry-box textarea::placeholder {
+  color: var(--text-muted);
+  font-weight: 200;
+}
+
+.inquiry-box input:focus,
+.inquiry-box textarea:focus {
+  border-color: rgba(200,184,138,0.4);
+}
+
+.inquiry-box textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.inquiry-submit {
+  display: block;
+  width: 100%;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.9rem;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  margin-top: 0.5rem;
+}
+
+.inquiry-submit:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
+.inquiry-note {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+/* ─── FADE-IN ─── */
+.fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── FOOTER ─── */
+footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
+.footer-logo img { height: 20px; opacity: 0.4; margin-bottom: 1.2rem; }
+.footer-copy { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .portfolio-page { padding: 7rem 0 4rem; }
+  .gallery-editorial {
+    grid-template-columns: 1fr;
+    padding: 0 1.5rem;
+    gap: 2.5rem;
+  }
+  .gallery-editorial .gallery-item:nth-child(even) { margin-top: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Logos/Monogram White Transp.png" alt="AM Monogram">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+    <li><a href="index.html#prints">Prints</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html#contact">Inquire</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul class="mobile-menu-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="index.html#prints">Prints</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html#contact">Inquire</a></li>
+  </ul>
+</div>
+
+<!-- ─── PORTFOLIO ─── -->
+<section class="portfolio-page">
+  <div class="portfolio-page-header fade-in">
+    <p class="section-label">Selected Works</p>
+    <h2 class="section-heading">Portfolio</h2>
+  </div>
+
+  <div class="gallery-editorial">
+
+    <div class="gallery-item fade-in" onclick="openLightbox(0)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img7.jpeg" alt="Portrait study" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Regard</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(1)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img9.jpeg" alt="Architectural study" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Structure I</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(2)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img5.jpeg" alt="Oak alley" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">The Passage</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(3)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img12.jpeg" alt="Urban facades" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Facades</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(4)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img2.jpeg" alt="Mountain reflection" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Summit</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(5)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img13.jpeg" alt="Portrait with smoke" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">The Gentleman</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(6)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img8.jpeg" alt="Beneath the pier" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Undertow</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(7)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img18.jpeg" alt="Italian monument" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Italia</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(8)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img16.jpeg" alt="Subway station" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Transit</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(9)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img11.jpeg" alt="Winter in the park" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Winter Solitude</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(10)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img17.jpeg" alt="Portrait with wind" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Movement</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(11)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img1.jpeg" alt="Bison on the plains" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">The Herd</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(12)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img6.jpeg" alt="Oak canopy in color" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Canopy</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(13)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img10.jpeg" alt="Island seascape" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Solitude</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(14)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img3.jpeg" alt="Oak alley in color" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Alley of Oaks</p>
+    </div>
+
+    <div class="gallery-item fade-in" onclick="openLightbox(15)">
+      <div class="gallery-item-frame">
+        <img src="Pictures/img4.jpeg" alt="Oak alley monochrome" loading="lazy">
+      </div>
+      <p class="gallery-item-caption">Alley of Oaks II</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">
+    <img src="Logos/Monogram White Transp.png" alt="AM">
+  </div>
+  <p class="footer-copy">&copy; 2026 Aurora Montelongo Photography. All rights reserved.</p>
+</footer>
+
+<!-- ─── LIGHTBOX ─── -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); navigateLightbox(-1)">&#8249;</button>
+  <div class="lightbox-frame">
+    <img src="" alt="Lightbox image" id="lightboxImg">
+    <div class="lightbox-shield"></div>
+    <div class="lightbox-wm lightbox-wm-monogram">
+      <img src="Logos/Monogram White Transp.png" alt="" draggable="false">
+    </div>
+    <div class="lightbox-wm lightbox-wm-logo">
+      <img src="Logos/Logo White Transp.png" alt="" draggable="false">
+    </div>
+  </div>
+  <div class="lightbox-panel">
+    <div>
+      <p class="lightbox-panel-title" id="lightboxPanelTitle"></p>
+      <p class="lightbox-panel-sub">Limited edition fine art print</p>
+    </div>
+    <button class="lightbox-panel-cta" onclick="event.stopPropagation(); openInquiry()">Acquire This Print</button>
+  </div>
+  <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); navigateLightbox(1)">&#8250;</button>
+</div>
+
+<!-- ─── INQUIRY MODAL ─── -->
+<div class="inquiry-modal" id="inquiryModal">
+  <div class="inquiry-box">
+    <button class="inquiry-close" onclick="closeInquiry()">&times;</button>
+    <p class="inquiry-label">Print Inquiry</p>
+    <h3 class="inquiry-title">Acquire a Print</h3>
+    <p class="inquiry-work-name" id="inquiryWorkName"></p>
+    <form id="inquiryForm" onsubmit="submitInquiry(event)">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="text" name="phone" placeholder="Phone (optional)">
+      <textarea name="message" placeholder="Notes — preferred size, framing, shipping address, or any questions"></textarea>
+      <button type="submit" class="inquiry-submit">Submit Inquiry</button>
+    </form>
+    <p class="inquiry-note">A member of the studio will respond within 48 hours with availability, sizing options, and pricing.</p>
+  </div>
+</div>
+
+<script>
+// ─── MOBILE MENU ───
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+navToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('active');
+  document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+});
+
+// ─── FADE-IN OBSERVER ───
+const faders = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+faders.forEach(el => fadeObserver.observe(el));
+
+// ─── LIGHTBOX ───
+const galleryImages = [
+  'Pictures/img7.jpeg',
+  'Pictures/img9.jpeg',
+  'Pictures/img5.jpeg',
+  'Pictures/img12.jpeg',
+  'Pictures/img2.jpeg',
+  'Pictures/img13.jpeg',
+  'Pictures/img8.jpeg',
+  'Pictures/img18.jpeg',
+  'Pictures/img16.jpeg',
+  'Pictures/img11.jpeg',
+  'Pictures/img17.jpeg',
+  'Pictures/img1.jpeg',
+  'Pictures/img6.jpeg',
+  'Pictures/img10.jpeg',
+  'Pictures/img3.jpeg',
+  'Pictures/img4.jpeg'
+];
+
+// Work titles matching gallery order
+const workTitles = [
+  'Regard', 'Structure I', 'The Passage', 'Facades',
+  'Summit', 'The Gentleman', 'Undertow', 'Italia',
+  'Transit', 'Winter Solitude', 'Movement', 'The Herd',
+  'Canopy', 'Solitude', 'Alley of Oaks', 'Alley of Oaks II'
+];
+
+// Color image indices (img6, img10, img3)
+const colorIndices = new Set([12, 13, 14]);
+
+let currentIndex = 0;
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxPanelTitle = document.getElementById('lightboxPanelTitle');
+const wmLogo = document.querySelector('.lightbox-wm-logo img');
+const wmMonogram = document.querySelector('.lightbox-wm-monogram img');
+const inquiryModal = document.getElementById('inquiryModal');
+const inquiryWorkName = document.getElementById('inquiryWorkName');
+
+function updateWatermarkColor(index) {
+  if (colorIndices.has(index)) {
+    wmLogo.src = 'Logos/Logo Black transp.png';
+    wmMonogram.src = 'Logos/Monogram Black Transp.png';
+  } else {
+    wmLogo.src = 'Logos/Logo White Transp.png';
+    wmMonogram.src = 'Logos/Monogram White Transp.png';
+  }
+}
+
+function openLightbox(index) {
+  currentIndex = index;
+  lightboxImg.src = galleryImages[index];
+  lightboxPanelTitle.textContent = workTitles[index];
+  updateWatermarkColor(index);
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function navigateLightbox(dir) {
+  currentIndex = (currentIndex + dir + galleryImages.length) % galleryImages.length;
+  lightboxImg.src = galleryImages[currentIndex];
+  lightboxPanelTitle.textContent = workTitles[currentIndex];
+  updateWatermarkColor(currentIndex);
+}
+
+// ─── INQUIRY MODAL ───
+function openInquiry() {
+  inquiryWorkName.textContent = '"' + workTitles[currentIndex] + '"';
+  inquiryModal.classList.add('active');
+}
+
+function closeInquiry() {
+  inquiryModal.classList.remove('active');
+}
+
+function submitInquiry(e) {
+  e.preventDefault();
+  const form = e.target;
+  const name = form.name.value;
+  const email = form.email.value;
+  const phone = form.phone.value;
+  const message = form.message.value;
+  const work = workTitles[currentIndex];
+
+  // Build mailto link with form data
+  const subject = encodeURIComponent('Print Inquiry — ' + work);
+  const body = encodeURIComponent(
+    'Work: ' + work + '\n' +
+    'Name: ' + name + '\n' +
+    'Email: ' + email + '\n' +
+    (phone ? 'Phone: ' + phone + '\n' : '') +
+    (message ? '\nNotes:\n' + message : '')
+  );
+  window.location.href = 'mailto:aurora@auroramontelongo.com?subject=' + subject + '&body=' + body;
+
+  // Show confirmation
+  form.innerHTML = '<p style="text-align:center;padding:2rem 0;"><span style="font-family:var(--serif);font-size:1.3rem;color:var(--white);display:block;margin-bottom:0.8rem;">Thank You</span><span style="font-size:0.78rem;color:var(--text-secondary);line-height:1.7;">Your inquiry for <em style=\'color:var(--accent)\'>' + work + '</em> has been received.<br>We will be in touch shortly.</span></p>';
+}
+
+inquiryModal.addEventListener('click', (e) => {
+  if (e.target === inquiryModal) closeInquiry();
+});
+
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('active')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') navigateLightbox(-1);
+  if (e.key === 'ArrowRight') navigateLightbox(1);
+});
+
+// ─── IMAGE PROTECTION ───
+document.querySelectorAll('.gallery-item-frame img, .lightbox-frame img, .lightbox-wm img').forEach(img => {
+  img.addEventListener('contextmenu', e => e.preventDefault());
+  img.addEventListener('dragstart', e => e.preventDefault());
+  img.setAttribute('draggable', 'false');
+});
+
+lightbox.addEventListener('contextmenu', e => e.preventDefault());
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.key === 'u' || e.key === 'U')) {
+    e.preventDefault();
+  }
+});
+
+document.querySelectorAll('.gallery-item, .lightbox-frame').forEach(el => {
+  el.addEventListener('touchstart', e => {
+    if (e.touches.length > 0) {
+      el.dataset.longpress = setTimeout(() => { e.preventDefault(); }, 500);
+    }
+  });
+  el.addEventListener('touchend', () => clearTimeout(el.dataset.longpress));
+  el.addEventListener('touchmove', () => clearTimeout(el.dataset.longpress));
+});
+</script>
+</body>
+</html>

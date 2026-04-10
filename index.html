@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Montelongo Photography</title>
+<meta name="description" content="Aurora Montelongo — Fine art and editorial photography. Limited edition prints available for collectors and interior designers.">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Franklin:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --near-black: #0a0a0a;
+  --dark-gray: #141414;
+  --mid-gray: #2a2a2a;
+  --text-muted: #6b6b6b;
+  --text-secondary: #999999;
+  --text-primary: #d4d4d4;
+  --white: #f0f0f0;
+  --bright-white: #ffffff;
+  --accent: #c8b88a;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Libre Franklin', 'Helvetica Neue', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent); color: var(--black); }
+
+/* ─── NAVIGATION ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.5s ease, padding 0.4s ease;
+}
+
+nav.scrolled {
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.nav-logo img {
+  height: 36px; width: 36px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+.nav-logo img:hover { opacity: 1; }
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+.nav-links a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 1px;
+  background: var(--text-secondary);
+  transition: all 0.3s;
+}
+
+/* ─── HERO WITH CAROUSEL ─── */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-slides {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.4) contrast(1.1);
+  transform: scale(1.05);
+}
+
+.hero-slide.active {
+  opacity: 1;
+  transform: scale(1.0);
+  transition: opacity 1.5s ease, transform 8s ease-out;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.3) 0%,
+    rgba(0,0,0,0.05) 40%,
+    rgba(0,0,0,0.5) 80%,
+    rgba(0,0,0,0.95) 100%
+  );
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 2rem;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroFadeIn 1.5s ease 0.5s forwards;
+}
+
+.hero-logo {
+  max-width: 480px;
+  margin: 0 auto 3rem;
+  opacity: 0.92;
+}
+
+.hero-logo img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.hero-cta {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid rgba(200, 184, 138, 0.3);
+  padding: 0.9rem 2.5rem;
+  transition: all 0.4s ease;
+}
+
+.hero-cta:hover {
+  background: rgba(200, 184, 138, 0.08);
+  border-color: var(--accent);
+  color: var(--bright-white);
+}
+
+/* Carousel indicators */
+.hero-indicators {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  gap: 0.6rem;
+}
+
+.hero-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.4s ease;
+}
+
+.hero-dot.active {
+  background: var(--accent);
+  transform: scale(1.3);
+}
+
+@keyframes heroFadeIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── SECTIONS ─── */
+section { padding: 8rem 2rem; }
+
+.section-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.section-heading {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: var(--white);
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+}
+
+.section-body {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  max-width: 560px;
+  line-height: 1.85;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.divider {
+  width: 50px; height: 1px;
+  background: var(--mid-gray);
+  margin: 0 auto;
+}
+
+/* ─── ABOUT ─── */
+.about { background: var(--near-black); }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+.about-image { position: relative; overflow: hidden; }
+
+.about-image img {
+  width: 100%;
+  display: block;
+  filter: brightness(0.9) contrast(1.05);
+}
+
+.about-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.about-text .section-body { margin-bottom: 2rem; }
+
+.about-signature {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--accent);
+  letter-spacing: 0.03em;
+  margin-top: 2rem;
+}
+
+/* ─── PRINTS / COLLECTING ─── */
+.prints { text-align: center; background: var(--black); }
+
+.prints-inner { max-width: 700px; margin: 0 auto; }
+
+.prints .section-body { margin: 0 auto 2.5rem; max-width: 520px; }
+
+.prints-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 4rem 0;
+  padding: 3rem 0;
+  border-top: 1px solid var(--mid-gray);
+  border-bottom: 1px solid var(--mid-gray);
+}
+
+.prints-feature h4 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+}
+
+.prints-feature p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.7; }
+
+.btn-primary {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--black);
+  background: var(--accent);
+  text-decoration: none;
+  padding: 1rem 3rem;
+  transition: all 0.4s ease;
+  border: 1px solid var(--accent);
+}
+
+.btn-primary:hover { background: transparent; color: var(--accent); }
+
+.btn-outline {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  padding: 1rem 3rem;
+  border: 1px solid rgba(200,184,138,0.3);
+  transition: all 0.4s ease;
+}
+
+.btn-outline:hover { border-color: var(--accent); background: rgba(200,184,138,0.06); }
+
+/* ─── CONTACT ─── */
+.contact { text-align: center; }
+.contact-inner { max-width: 600px; margin: 0 auto; }
+
+.contact-links { display: flex; justify-content: center; gap: 3rem; margin-top: 3rem; flex-wrap: wrap; }
+.contact-link { text-decoration: none; text-align: center; }
+.contact-link-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem; }
+.contact-link-value { font-family: var(--serif); font-size: 1.1rem; color: var(--text-primary); transition: color 0.3s; }
+.contact-link:hover .contact-link-value { color: var(--accent); }
+
+/* ─── FOOTER ─── */
+footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
+.footer-logo img { height: 20px; opacity: 0.4; margin-bottom: 1.2rem; }
+.footer-copy { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); }
+
+/* ─── FADE-IN ─── */
+.fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── MOBILE MENU ─── */
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.97);
+  align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.mobile-menu.active { display: flex; opacity: 1; }
+.mobile-menu-links { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 2rem; }
+.mobile-menu-links a { font-family: var(--serif); font-weight: 300; font-size: 1.8rem; color: var(--text-primary); text-decoration: none; transition: color 0.3s; }
+.mobile-menu-links a:hover { color: var(--accent); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .events-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  nav.scrolled { padding: 0.8rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  section { padding: 5rem 1.5rem; }
+  .prints-features { grid-template-columns: 1fr; gap: 2rem; }
+  .contact-links { flex-direction: column; gap: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="Logos/Monogram White Transp.png" alt="AM Monogram">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="#prints">Prints</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="#contact">Inquire</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul class="mobile-menu-links">
+    <li><a href="#about" onclick="closeMobile()">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="#prints" onclick="closeMobile()">Prints</a></li>
+    <li><a href="#events" onclick="closeMobile()">Events</a></li>
+    <li><a href="#contact" onclick="closeMobile()">Inquire</a></li>
+  </ul>
+</div>
+
+<!-- ─── HERO WITH CAROUSEL ─── -->
+<section class="hero" id="hero">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image: url('Pictures/img7.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img5.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img9.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img2.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img13.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img12.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img8.jpeg')"></div>
+    <div class="hero-slide" style="background-image: url('Pictures/img17.jpeg')"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-logo">
+      <img src="Logos/Logo White Transp.png" alt="Aurora Montelongo Photography">
+    </div>
+    <a href="portfolio.html" class="hero-cta">View Portfolio</a>
+  </div>
+  <div class="hero-indicators" id="heroIndicators"></div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image fade-in">
+        <img src="Pictures/img4.jpeg" alt="Aurora Montelongo — The Passage">
+      </div>
+      <div class="about-text fade-in">
+        <p class="section-label">The Artist</p>
+        <h2 class="section-heading">Aurora Montelongo</h2>
+        <p class="section-body">
+          Aurora Montelongo's work lives at the intersection of architecture, nature, and the human gaze. With an editorial eye refined through years of practice, she captures spaces and subjects with a quiet intensity that resonates with collectors, interior designers, and those drawn to visual atmosphere.
+        </p>
+        <p class="section-body">
+          Her photographs have found a place in private residences, design studios, and curated exhibitions, valued not merely as images, but as compositional works meant to inhabit a room.
+        </p>
+        <p class="section-body">
+          Grounded in a deep sensitivity to light, structure, and narrative, Aurora's portfolio moves between the monumental and the intimate, from sweeping landscapes and architectural studies to striking portraiture.
+        </p>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem;">
+          <p class="about-signature" style="margin: 0;">— A. Montelongo</p>
+          <img src="Logos/Monogram White Transp.png" alt="Aurora Montelongo Monogram" style="height: 100px; opacity: 0.2;">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── PRINTS / COLLECTING ─── -->
+<section class="prints" id="prints">
+  <div class="container">
+    <div class="prints-inner fade-in">
+      <p class="section-label">Collecting</p>
+      <h2 class="section-heading">Acquire a Print</h2>
+      <p class="section-body">
+        Each photograph in Aurora's portfolio is available as a limited edition fine art print. Works are produced on archival-quality paper with museum-grade materials, signed and numbered by the artist, and shipped worldwide with care befitting the work itself.
+      </p>
+
+      <div class="prints-features">
+        <div class="prints-feature">
+          <h4>Archival Quality</h4>
+          <p>Museum-grade giclée printing on heavyweight fine art paper, built to endure.</p>
+        </div>
+        <div class="prints-feature">
+          <h4>Signed &amp; Numbered</h4>
+          <p>Each edition is limited. Every print carries the artist's signature and edition number.</p>
+        </div>
+        <div class="prints-feature">
+          <h4>Worldwide Shipping</h4>
+          <p>Gallery-standard packaging and insured delivery to any destination.</p>
+        </div>
+      </div>
+
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.7;">Interested in a particular work? Reach out to discuss availability, editions, and sizing for your space.</p>
+      <a href="mailto:aurora@auroramontelongo.com?subject=Print%20Collection%20Inquiry" class="btn-primary">Inquire to Collect</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ─── CONTACT ─── -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-inner fade-in">
+      <p class="section-label">Get in Touch</p>
+      <h2 class="section-heading">Inquiries</h2>
+      <p class="section-body" style="margin: 0 auto 1rem; max-width: 480px;">
+        For print acquisitions, exhibition inquiries, commissions, or design collaborations — Aurora and her studio welcome your correspondence.
+      </p>
+
+      <div class="contact-links">
+        <a href="mailto:aurora@auroramontelongo.com" class="contact-link">
+          <p class="contact-link-label">Email</p>
+          <p class="contact-link-value">studio@auroramontelongo.com</p>
+        </a>
+        <a href="https://www.instagram.com/auroramontelongomoral/" target="_blank" rel="noopener" class="contact-link">
+          <p class="contact-link-label">Instagram</p>
+          <p class="contact-link-value">@auroramontelongo</p>
+        </a>
+      </div>
+
+      <div style="margin-top: 3rem; text-align: center;">
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.5rem; max-width: 400px; margin-left: auto; margin-right: auto; line-height: 1.7;">Looking to book Aurora for a private session, editorial project, or creative collaboration? Let's start the conversation.</p>
+        <a href="mailto:aurora@auroramontelongo.com?subject=Commission%20%26%20Booking%20Inquiry" class="btn-outline">Commission the Artist</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">
+    <img src="Logos/Monogram White Transp.png" alt="AM">
+  </div>
+  <p class="footer-copy">&copy; 2026 Aurora Montelongo Photography. All rights reserved.</p>
+</footer>
+
+<script>
+// ─── NAV SCROLL ───
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+// ─── MOBILE MENU ───
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+
+navToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('active');
+  document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+});
+
+function closeMobile() {
+  mobileMenu.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// ─── FADE-IN OBSERVER ───
+const faders = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+faders.forEach(el => fadeObserver.observe(el));
+
+// ─── HERO CAROUSEL ───
+const slides = document.querySelectorAll('.hero-slide');
+const indicatorContainer = document.getElementById('heroIndicators');
+let currentSlide = 0;
+let carouselInterval;
+
+// Create indicator dots
+slides.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.classList.add('hero-dot');
+  if (i === 0) dot.classList.add('active');
+  dot.addEventListener('click', () => goToSlide(i));
+  indicatorContainer.appendChild(dot);
+});
+
+const dots = document.querySelectorAll('.hero-dot');
+
+function goToSlide(index) {
+  slides[currentSlide].classList.remove('active');
+  dots[currentSlide].classList.remove('active');
+  currentSlide = index;
+  slides[currentSlide].classList.add('active');
+  dots[currentSlide].classList.add('active');
+  resetInterval();
+}
+
+function nextSlide() {
+  goToSlide((currentSlide + 1) % slides.length);
+}
+
+function resetInterval() {
+  clearInterval(carouselInterval);
+  carouselInterval = setInterval(nextSlide, 3000);
+}
+
+// Start carousel
+carouselInterval = setInterval(nextSlide, 3000);
+
+// Pause on hover
+const hero = document.getElementById('hero');
+hero.addEventListener('mouseenter', () => clearInterval(carouselInterval));
+hero.addEventListener('mouseleave', () => { carouselInterval = setInterval(nextSlide, 3000); });
+
+// ─── SMOOTH SCROLL ───
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>

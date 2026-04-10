@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events — Aurora Montelongo Photography</title>
+<meta name="description" content="Exhibitions and appearances by Aurora Montelongo. Fine art photography events worldwide.">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Libre+Franklin:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #000000;
+  --near-black: #0a0a0a;
+  --dark-gray: #141414;
+  --mid-gray: #2a2a2a;
+  --text-muted: #6b6b6b;
+  --text-secondary: #999999;
+  --text-primary: #d4d4d4;
+  --white: #f0f0f0;
+  --bright-white: #ffffff;
+  --accent: #c8b88a;
+  --serif: 'Cormorant Garamond', 'Georgia', serif;
+  --sans: 'Libre Franklin', 'Helvetica Neue', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection { background: var(--accent); color: var(--black); }
+
+/* ─── NAVIGATION ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 1.5rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.nav-logo img {
+  height: 36px; width: 36px;
+  object-fit: contain;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+.nav-logo img:hover { opacity: 1; }
+
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+
+.nav-links a {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0;
+  width: 0; height: 1px;
+  background: var(--accent);
+  transition: width 0.4s ease;
+}
+
+.nav-links a:hover { color: var(--white); }
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.active { color: var(--white); }
+.nav-links a.active::after { width: 100%; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 1px;
+  background: var(--text-secondary);
+  transition: all 0.3s;
+}
+
+/* ─── MOBILE MENU ─── */
+.mobile-menu {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: rgba(0,0,0,0.97);
+  align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.mobile-menu.active { display: flex; opacity: 1; }
+.mobile-menu-links { list-style: none; text-align: center; display: flex; flex-direction: column; gap: 2rem; }
+.mobile-menu-links a { font-family: var(--serif); font-weight: 300; font-size: 1.8rem; color: var(--text-primary); text-decoration: none; transition: color 0.3s; }
+.mobile-menu-links a:hover { color: var(--accent); }
+
+/* ─── EVENTS PAGE ─── */
+.events-page {
+  padding: 10rem 2rem 6rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.events-page-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.section-label {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.section-heading {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  color: var(--white);
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+}
+
+/* Featured event — large hero card */
+.event-featured {
+  position: relative;
+  margin-bottom: 5rem;
+  overflow: hidden;
+}
+
+.event-featured-bg {
+  width: 100%;
+  height: 400px;
+  background: url('Pictures/img18.jpeg') center / cover no-repeat;
+  filter: brightness(0.35) contrast(1.1);
+}
+
+.event-featured-content {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 3rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 100%);
+}
+
+.event-featured-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--black);
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  padding: 0.3rem 1rem;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+}
+
+.event-featured-date {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.event-featured-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  color: var(--bright-white);
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.event-featured-location {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.event-featured-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  line-height: 1.8;
+}
+
+/* Events grid */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.event-card {
+  border: 1px solid var(--mid-gray);
+  padding: 2.5rem;
+  transition: border-color 0.4s;
+  position: relative;
+}
+
+.event-card:hover { border-color: rgba(200,184,138,0.3); }
+
+.event-date {
+  font-family: var(--sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.event-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: var(--white);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.event-location {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.event-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+
+.event-link {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  transition: opacity 0.3s;
+}
+.event-link:hover { opacity: 0.7; }
+
+.event-featured-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid rgba(200,184,138,0.3);
+  padding: 0.5rem 1.5rem;
+  transition: all 0.3s;
+}
+.event-featured-link:hover { background: rgba(200,184,138,0.08); border-color: var(--accent); }
+
+.events-page-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 1.2rem;
+  font-style: italic;
+  font-family: var(--serif);
+}
+
+/* Divider between sections */
+.events-divider {
+  text-align: center;
+  margin: 4rem 0 3rem;
+}
+
+.events-divider-label {
+  font-family: var(--sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── FADE-IN ─── */
+.fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── FOOTER ─── */
+footer { padding: 3rem 2rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.04); }
+.footer-logo img { height: 20px; opacity: 0.4; margin-bottom: 1.2rem; }
+.footer-copy { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .events-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .events-page { padding: 7rem 1.5rem 4rem; }
+  .events-grid { grid-template-columns: 1fr; }
+  .event-featured-bg { height: 280px; }
+  .event-featured-content { padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVIGATION ─── -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <img src="Logos/Monogram White Transp.png" alt="AM Monogram">
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="index.html#prints">Prints</a></li>
+    <li><a href="events.html" class="active">Events</a></li>
+    <li><a href="index.html#contact">Inquire</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+  <ul class="mobile-menu-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="index.html#prints">Prints</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html#contact">Inquire</a></li>
+  </ul>
+</div>
+
+<!-- ─── EVENTS ─── -->
+<section class="events-page">
+
+  <div class="events-page-header fade-in">
+    <p class="section-label">Exhibitions &amp; Appearances</p>
+    <h2 class="section-heading">Events</h2>
+    <p class="events-page-subtitle">Select exhibitions, fairs, and private engagements</p>
+  </div>
+
+  <!-- Featured: Milan Design Week -->
+  <div class="event-featured fade-in">
+    <div class="event-featured-bg"></div>
+    <div class="event-featured-content">
+      <span class="event-featured-badge">This Month</span>
+      <p class="event-featured-date">April 21 – 26, 2026</p>
+      <h3 class="event-featured-title">Salone del Mobile Milano</h3>
+      <p class="event-featured-location">Rho Fiera Milano, Italy</p>
+      <p class="event-featured-desc">
+        Aurora will be attending the 64th edition of Salone del Mobile — the world's foremost gathering for design, interiors, and visual culture. Over 1,900 exhibitors across 169,000 square meters of exhibition space. A presence not to be missed.
+      </p>
+      <a href="https://www.salonemilano.it/en" target="_blank" rel="noopener" class="event-featured-link">View Event</a>
+    </div>
+  </div>
+
+  <!-- Upcoming events -->
+  <div class="events-divider">
+    <span class="events-divider-label">Upcoming</span>
+  </div>
+
+  <div class="events-grid fade-in">
+
+    <div class="event-card">
+      <p class="event-date">November 12 – 15, 2026</p>
+      <h3 class="event-title">Paris Photo</h3>
+      <p class="event-location">Grand Palais, Paris</p>
+      <p class="event-desc">
+        The world's leading art fair dedicated to photography and image-based art. Over 200 exhibitors gathering at the Grand Palais — marking two centuries since the invention of the medium.
+      </p>
+      <a href="https://www.parisphoto.com/" target="_blank" rel="noopener" class="event-link">View Event →</a>
+    </div>
+
+    <div class="event-card">
+      <p class="event-date">Ongoing</p>
+      <h3 class="event-title">Private Studio Viewings</h3>
+      <p class="event-location">By Appointment</p>
+      <p class="event-desc">
+        Interior designers, art consultants, and private collectors are welcome to arrange a viewing of available works and discuss commissions directly with the artist.
+      </p>
+    </div>
+
+    <div class="event-card">
+      <p class="event-date">Spring 2027</p>
+      <h3 class="event-title">The Photography Show by AIPAD</h3>
+      <p class="event-location">Park Avenue Armory, New York</p>
+      <p class="event-desc">
+        The premier fine art photography fair in the United States, bringing together leading galleries and dealers at the iconic Park Avenue Armory. Dates to be announced.
+      </p>
+      <a href="https://www.aipad.com/show" target="_blank" rel="noopener" class="event-link">View Event →</a>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-logo">
+    <img src="Logos/Monogram White Transp.png" alt="AM">
+  </div>
+  <p class="footer-copy">&copy; 2026 Aurora Montelongo Photography. All rights reserved.</p>
+</footer>
+
+<script>
+// ─── MOBILE MENU ───
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+navToggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('active');
+  document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+});
+
+// ─── FADE-IN OBSERVER ───
+const faders = document.querySelectorAll('.fade-in');
+const fadeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      fadeObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+faders.forEach(el => fadeObserver.observe(el));
+</script>
+</body>
+</html>
